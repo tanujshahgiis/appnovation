@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1 class = "mt-5" style="text-align : center;">Welcome to the Guide Page!</h1>
+<h2 class = "mt-5" style="text-align : center;">Learn how to use this web application to its potential here :</h2>
+<br><br>
+
+<h5>1. The 'Student Wellbeing Portal' is a wellbeing web app portal designed for school students to help them with various issues
+    and challenges they face in their day-to-day lives as they work their way up through school life.
+</h5>
+
+<br>
+
+<h5>
+    2. These challenges or issues could be anything from being a vicitm of abuse, bullying or harassment, all the way up to academic stress.
+</h5>
+
+<br>
+
+<h5>
+    3. Students can make use of the portal by clicking on <a href = "{{url_for('report.report')}}">"I would like to recieve help from a Volunteer"</a> from
+    the homepage and they can fill in the required details relating to their issue. If there is a student whom they would like to report about, they may
+    do so by filling the necessary fields. If their problem is related to studies or academics they may indicate "NA" wherever applicable. To encourage 
+    the students to freely, without fear to express their concerns, we have designed the portal such that the students may choose to remain anonymous while
+    submitting the report. Furthermore, please note that students do not require an account to report.
+</h5>
+
+<br>
+
+<h5>
+    4. Once the students submit a report, it is sent to a teacher who has an account on the portal and the teacher will then decide, and assign it to
+    a suitable student volunteer who also has an account on the portal. The student volunteer is also a student from the school, who would like to bring about change,
+    help people and foster a healthy school environment for all the students. Volunteers may sign up for an account by clicking on
+    <a href = "{{url_for('auth.signup')}}">"Sign Up as a Volunteer to help students in need"</a> from the homepage by providing the required details.
+    The volunteer will then work on plans to help the student in need by taking necessary actions. The role of a volunteer helps them develop their leadership
+    and management skills. Incase the report is quite serious and the volunteer doesn't feel confident in working on it or isn't sure how to deal
+    with the situation, he/she may choose to escalate the report back to the teacher who will then take care of resolving it.
+</h5>
+
+<br>
+
+<h5>5. Teacher accounts can only made by the admin account which is an in-built account only accessible by the school managment. This is done to ensure
+    security and prevent unauthorised access. To prevent students from misusing this portal by submitting fake or prank reports which takes all reports by
+    students seriously, we record students' IP address each time they submit a report which is completely confidential, to ban those students who submit
+    false reports from using the portal. The banning and the ban duration will be decided and controlled by the admin through the admin account.
+    The admin has overall control and monitors to ensure that students benefit from the platform and that it is not misused. The admin also has control over
+    removing teacher accounts if necessary.
+</h5>
+
+<br>
+
+<h5>
+    6. And that's the end of the guide! We hope that all students would make the most out of this opportunity and benefit from it! Feel free to report anytime
+    you require any kind of assistance in anything!
+</h5>
+
+
+{% endblock %}

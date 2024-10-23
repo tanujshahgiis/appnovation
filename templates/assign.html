@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container text-center">
+    <h1 class="mt-5">Assign Report</h1>
+    <p>Report ID: <strong>{{ report.id }}</strong></p>
+    <p>Offender: <strong>{{ report.offender_name }}</strong></p>
+    <p>Class: <strong>{{ report.offender_class }}</strong></p>
+    <p>Section: <strong>{{ report.section }}</strong></p>
+    <p>Details: <strong>{{ report.details }}</strong></p>
+    <p>Type: <strong>{{ report.report_type }}</strong></p>
+    
+    <form method="post" class="mt-3">
+        <div class="form-group">
+            <label for="volunteer_id">Assign to Volunteer</label>
+            <select name="volunteer_id" id="volunteer_id" class="form-control" required>
+                {% for volunteer in volunteers %}
+                <option value="{{ volunteer.id }}">{{ volunteer.username }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary btn-lg mt-3">Assign</button>
+    </form>
+</div>
+{% endblock %}

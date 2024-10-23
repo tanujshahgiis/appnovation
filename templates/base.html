@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" href="https://image.freepik.com/free-vector/gradient-mental-health-logo-template_23-2148820570.jpg" type="image/jpg" />
+    <meta charset="utf-8" />
+    
+    <title>{% block title %}Student Wellbeing Portal{% endblock %}</title>
+  
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+    {% block head %}{% endblock %}
+</head>
+
+<body style="background-color: #F5F5DC;">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+
+        <div class="collapse navbar-collapse">
+            <a class="nav-link" href="{{ url_for('home.home') }}">Home</a>
+            <a class="nav-link" href="{{ url_for('guide.guide') }}">Guide</a>
+            <ul class="navbar-nav ml-auto">
+                {% if session.get('username') %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('auth.logout') }}">Logout</a>
+                </li>
+                <li class="nav-item">
+                   
+                    {% if session.get('account_type') == 'Admin' %}
+                    <a class="nav-link" href="{{ url_for('admin_dashboard.admin_dashboard') }}">Dashboard</a>
+                    {% elif session.get('account_type') == 'Teacher' %}
+                    <a class="nav-link" href="{{ url_for('teacher_dashboard.dashboard') }}">Dashboard</a>
+                    {% else %}
+                    <a class="nav-link" href="{{ url_for('volunteer_dashboard.dashboard') }}">Dashboard</a>
+                    {% endif %}
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('auth.login') }}">Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('auth.signup') }}">Sign Up</a>
+                </li>
+                {% endif %}
+
+        </div>
+    </nav>
+    <div class="container">
+        {% block content %}{% endblock %}
+    </div>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+
+</html>

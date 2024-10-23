@@ -1,0 +1,135 @@
+{% extends "base.html" %}
+{% block title %}Teacher Dashboard{% endblock %}
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+
+        <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block bg-light sidebar">
+            <div class="position-sticky">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#unassignedReports">
+                            Unassigned Reports
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#assignedReports">
+                            Assigned Reports
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#escalatedReports">
+                            Escalated Reports
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+            <div class="container text-center">
+                <h1 class="mt-5">Teacher Dashboard</h1>
+                <h2>Welcome, {{ username }}</h2>
+                <p>Your account type: <strong>{{ account_type }}</strong></p>
+            
+                <h3 class="mt-4">Unassigned Reports</h3>
+                <table class="table table-bordered mt-3">
+                    <thead>
+                        <tr>
+                            <th>Report ID</th>
+                            <th>Offender</th>
+                            <th>Class</th>
+                            <th>Section</th>
+                            <th>Details</th>
+                            <th>Type</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for report in unassigned_reports %}
+                        <tr>
+                            <td>{{ report.id }}</td>
+                            <td>{{ report.offender_name }}</td>
+                            <td>{{ report.offender_class }}</td>
+                            <td>{{ report.section }}</td>
+                            <td>{{ report.details }}</td>
+                            <td>{{ report.report_type }}</td>
+                            <td>
+                                <a href="{{ url_for('report.resolve_report', report_id=report.id) }}" class="btn btn-success btn-sm">Resolve</a>
+                            
+                            <br><br>
+                                <a href="{{ url_for('report.assign', report_id=report.id) }}" class="btn btn-success btn-sm">Assign</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            
+                <h3 class="mt-4">Assigned Reports</h3>
+                <table class="table table-bordered mt-3">
+                    <thead>
+                        <tr>
+                            <th>Report ID</th>
+                            <th>Offender</th>
+                            <th>Class</th>
+                            <th>Section</th>
+                            <th>Details</th>
+                            <th>Type</th>
+                            <th>Assigned To</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for report in assigned_reports %}
+                        <tr>
+                            <td>{{ report.id }}</td>
+                            <td>{{ report.offender_name }}</td>
+                            <td>{{ report.offender_class }}</td>
+                            <td>{{ report.section }}</td>
+                            <td>{{ report.details }}</td>
+                            <td>{{ report.report_type }}</td>
+                            <td>{% if report.assigned_volunteer %}{{ report.assigned_volunteer.username }}{% else %}Unassigned{% endif %}</td>
+                            <td>
+                                <a href="{{ url_for('report.resolve_report', report_id=report.id) }}" class="btn btn-success btn-sm">Resolve</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            
+                <h3 class="mt-4">Escalated Reports</h3>
+                <table class="table table-bordered mt-3">
+                    <thead>
+                        <tr>
+                            <th>Report ID</th>
+                            <th>Offender</th>
+                            <th>Class</th>
+                            <th>Section</th>
+                            <th>Details</th>
+                            <th>Type</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for report in escalated_reports %}
+                        <tr>
+                            <td>{{ report.id }}</td>
+                            <td>{{ report.offender_name }}</td>
+                            <td>{{ report.offender_class }}</td>
+                            <td>{{ report.section }}</td>
+                            <td>{{ report.details }}</td>
+                            <td>{{ report.report_type }}</td>
+                            <td>
+                                <a href="{{ url_for('report.resolve_report', report_id=report.id) }}" class="btn btn-success btn-sm">Resolve</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            
+        </main>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h1 class="mt-5">Report an Incident or Request for help</h1>
+    <h2>Be sure to fill out all the fields to submit. Enter "NA" for fields not applicable.</h2>
+    <form method="post" action="{{ url_for('report.report') }}">
+        <div class="form-group mt-3">
+            <label for="reporter_name">Your name (Enter anonymous if you don't wish to disclose your real name)</label>
+            <input type="text" name="reporter_name" class="form-control" id="reporter_name" required>
+        </div>
+        <div class="form-group mt-3">
+            <label for="incident_date">Date of Incident</label>
+            <input type="date" name="incident_date" class="form-control" id="incident_date" required>
+        </div>
+        <div class="form-group mt-3">
+            <label for="people_involved">Names of People Involved</label>
+            <input type="text" name="people_involved" class="form-control" id="people_involved" required>
+        </div>
+        <div class="form-group mt-3">
+            <label for="location">Location of Incident</label><br>
+            <input type="checkbox" name="location" value="In School"> In School<br>
+            <input type="checkbox" name="location" value="Outside School"> Outside School<br>
+            <input type="checkbox" name="location" value="Online"> Online
+        </div>
+        <div class="form-group mt-3">
+            <label for="offender_name">Name of the Person you wish to report</label>
+            <input type="text" name="offender_name" class="form-control" id="offender_name" required>
+        </div>
+        <div class="form-group mt-3">
+            <label for="offender_class">Class of the Person you wish to report</label>
+            <input type="text" name="offender_class" class="form-control" id="offender_class" required>
+        </div>
+        <div class="form-group mt-3">
+            <label for="section">Section of the Person you wish to report</label>
+            <input type="text" name="section" class="form-control" id="section" required>
+        </div>
+        <div class="form-group mt-3">
+            <label for="details">Details of the Incident</label>
+            <textarea name="details" class="form-control" id="details" rows="4" required></textarea>
+        </div>
+        <div class="form-group mt-3">
+            <label for="report_type">Incident Type</label><br>
+            <input type="checkbox" name="report_type" value="Harassment"> Harassment<br>
+            <input type="checkbox" name="report_type" value="Bullying"> Bullying<br>
+            <input type="checkbox" name="report_type" value="Verbal Abuse"> Verbal Abuse<br>
+            <input type="checkbox" name="report_type" value="Fight"> Fight<br>
+            <input type="checkbox" name="report_type" value="Academic Help"> Academic Help<br>
+            <input type="checkbox" name="report_type" value="Illegal Activities"> Illegal Activities<br>
+            <input type="radio" name="report_type" value="Other"> Other
+        </div>
+        <button type="submit" class="btn btn-primary mt-3">Submit Report</button>
+    </form>
+</div>
+{% endblock %}

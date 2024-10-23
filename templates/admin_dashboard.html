@@ -1,0 +1,276 @@
+{% extends "base.html" %}
+{% block title %}Admin Dashboard{% endblock %}
+{% block content %}
+
+<div class="container text-center">
+    <h1 class="mt-5">Admin Dashboard</h1>
+    <h2>Welcome, {{ username }}</h2>
+    <p>Your account type: <strong>{{ account_type }}</strong></p>
+
+
+    <ul class="nav nav-tabs mt-4" id="adminTabs" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" id="reports-tab" data-toggle="tab" href="#reports" role="tab"
+                aria-controls="reports" aria-selected="true">Reports</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="manage-accounts-tab" data-toggle="tab" href="#manage-accounts" role="tab"
+                aria-controls="manage-accounts" aria-selected="false">Manage Accounts</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="ip-banning-tab" data-toggle="tab" href="#ip-banning" role="tab"
+                aria-controls="ip-banning" aria-selected="false">IP Banning</a>
+        </li>
+    </ul>
+
+    <div class="tab-content" id="adminTabsContent">
+
+        <div class="tab-pane fade show active" id="reports" role="tabpanel" aria-labelledby="reports-tab">
+            <h3 class="mt-4">Active Reports</h3>
+            <table class="table table-bordered mt-3">
+                <thead>
+                    <tr>
+                        <th>Report ID</th>
+                        <th>Offender</th>
+                        <th>Class</th>
+                        <th>Section</th>
+                        <th>Details</th>
+                        <th>Type</th>
+                        <th>Assigned To</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for report in active_reports %}
+                    <tr>
+                        <td>{{ report.id }}</td>
+                        <td>{{ report.offender_name }}</td>
+                        <td>{{ report.offender_class }}</td>
+                        <td>{{ report.section }}</td>
+                        <td>{{ report.details }}</td>
+                        <td>{{ report.report_type }}</td>
+                        <td>{% if report.assigned_volunteer %}{{ report.volunteer.username }}{% else %}Unassigned{%
+                            endif %}</td>
+                        <td>
+                            <a href="{{ url_for('report.resolve_report', report_id=report.id) }}"
+                                class="btn btn-primary btn-sm">Resolve</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+
+            <h3 class="mt-4">Past Reports</h3>
+            <table class="table table-bordered mt-3">
+                <thead>
+                    <tr>
+                        <th>Report ID</th>
+                        <th>Offender</th>
+                        <th>Class</th>
+                        <th>Section</th>
+                        <th>Details</th>
+                        <th>Type</th>
+                        <th>Assigned To</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for report in past_reports %}
+                    <tr>
+                        <td>{{ report.id }}</td>
+                        <td>{{ report.offender_name }}</td>
+                        <td>{{ report.offender_class }}</td>
+                        <td>{{ report.section }}</td>
+                        <td>{{ report.details }}</td>
+                        <td>{{ report.report_type }}</td>
+                        <td>{% if report.assigned_volunteer %}{{ report.assigned_volunteer.username }}{% else
+                            %}Unassigned{% endif %}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <h3 class="mt-4">Escalated Reports</h3>
+            <table class="table table-bordered mt-3">
+                <thead>
+                    <tr>
+                        <th>Report ID</th>
+                        <th>Offender</th>
+                        <th>Class</th>
+                        <th>Section</th>
+                        <th>Details</th>
+                        <th>Type</th>
+                        <th>Escalated By</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for report in escalated_reports %}
+                    <tr>
+                        <td>{{ report.id }}</td>
+                        <td>{{ report.offender_name }}</td>
+                        <td>{{ report.offender_class }}</td>
+                        <td>{{ report.section }}</td>
+                        <td>{{ report.details }}</td>
+                        <td>{{ report.report_type }}</td>
+                        <td>{% if report.escalator %}{{ report.escalator.username }}{% else %}N/A{% endif %}</td>
+                        <td>
+                            <a href="{{ url_for('report.resolve_report', report_id=report.id) }}"
+                                class="btn btn-primary btn-sm">Resolve</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+
+        </div>
+
+
+        <div class="tab-pane fade" id="manage-accounts" role="tabpanel" aria-labelledby="manage-accounts-tab">
+            <h3 class="mt-4">Create Account</h3>
+            <form method="post" action="{{ url_for('admin_dashboard.create_account') }}">
+                <div class="form-group mt-3">
+                    <label for="username">Username</label>
+                    <input type="text" name="username" class="form-control" id="username" required>
+                </div>
+                <div class="form-group mt-3">
+                    <label for="password">Password</label>
+                    <input type="password" name="password" class="form-control" id="password" required>
+                </div>
+                <div class="form-group mt-3">
+                    <label for="name">Name</label>
+                    <input type="text" name="name" class="form-control" id="name" required>
+                </div>
+                <div class="form-group mt-3">
+                    <label for="class">Class</label>
+                    <input type="text" name="class" class="form-control" id="class" required>
+                </div>
+                <div class="form-group mt-3">
+                    <label for="section">Section</label>
+                    <input type="text" name="section" class="form-control" id="section" required>
+                </div>
+                <div class="form-group mt-3">
+                    <label for="age">Age</label>
+                    <input type="number" name="age" class="form-control" id="age" required>
+                </div>
+                <div class="form-group mt-3">
+                    <label for="roll_no">Roll No</label>
+                    <input type="text" name="roll_no" class="form-control" id="roll_no" required>
+                </div>
+                <div class="form-group mt-3">
+                    <label for="account_type">Account Type</label>
+                    <select name="account_type" id="account_type" class="form-control" required>
+                        <option value="Teacher">Teacher</option>
+                        <option value="Volunteer">Volunteer</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-success btn-lg mt-3">Create Account</button>
+            </form>
+            <h3 class="mt-4">Delete Account</h3>
+            <form method="post" action="{{ url_for('admin_dashboard.delete_account') }}">
+                <div class="form-group mt-3">
+                    <label for="delete_username">Enter Username</label>
+                    <input type="text" name="delete_username" class="form-control" id="delete_username" required>
+                </div>
+                <button type="submit" class="btn btn-danger btn-lg mt-3">Delete Account</button>
+            </form>
+            <div class="mt-4">
+                <h3>Existing Accounts</h3>
+                <table class="table table-bordered mt-3">
+                    <thead>
+                        <tr>
+                            <th>Username</th>
+                            <th>Full Name</th>
+                            <th>Class</th>
+                            <th>Section</th>
+                            <th>Age</th>
+                            <th>Roll No</th>
+                            <th>Account Type</th>
+                            <th>IP Address used for last login</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for user in users %}
+                        <tr>
+                            <td>{{ user.username }}</td>
+                            <td>{{ user.name }}</td>
+                            <td>{{ user.class_ }}</td>
+                            <td>{{ user.section }}</td>
+                            <td>{{ user.age }}</td>
+                            <td>{{ user.roll_no }}</td>
+                            <td>{{ user.account_type }}</td>
+                            <td>{{ user.last_login_ip }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+
+
+        <div class="tab-pane fade" id="ip-banning" role="tabpanel" aria-labelledby="ip-banning-tab">
+            <h3 class="mt-4">Ban an IP Address</h3>
+            <form method="post" action="{{ url_for('admin_dashboard.ban_ip') }}">
+                <div class="form-group mt-3">
+                    <label for="ip_address">IP Address</label>
+                    <input type="text" name="ip_address" class="form-control" id="ip_address" required>
+                </div>
+                <div class="form-group mt-3">
+                    <label for="reason">Reason for Ban</label>
+                    <input type="text" name="reason" class="form-control" id="reason" required>
+                </div>
+                <div class="form-group mt-3">
+                    <label for="duration">Ban Duration</label><br>
+                    <input type="radio" name="duration" value="1 Day" required> 1 Day<br>
+                    <input type="radio" name="duration" value="3 Days" required> 3 Days<br>
+                    <input type="radio" name="duration" value="1 Week" required> 1 Week<br>
+                    <input type="radio" name="duration" value="2 Weeks" required> 2 Weeks<br>
+                    <input type="radio" name="duration" value="Permanent" required> Permanent<br>
+                </div>
+                <button type="submit" class="btn btn-danger btn-lg mt-3">Ban IP</button>
+            </form>
+            <h3 class="mt-4">Unban an IP Address</h3>
+            <form method="post" action="{{ url_for('admin_dashboard.unban_ip') }}">
+                <div class="form-group mt-3">
+                    <label for="unban_ip_address">IP Address</label>
+                    <input type="text" name="unban_ip_address" class="form-control" id="unban_ip_address" required>
+                </div>
+                <button type="submit" class="btn btn-success btn-lg mt-3">Unban IP</button>
+            </form>
+
+            <h3 class="mt-4">Current Bans</h3>
+            <table class="table table-bordered mt-3">
+                <thead>
+                    <tr>
+                        <th>IP Address</th>
+                        <th>Reason for Ban</th>
+                        <th>Duration of Ban</th>
+                        <th>Ban Date and Time</th>
+                        <th>Unban Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for ban in banned_ips %}
+                    <tr>
+                        <td>{{ ban.ip_address }}</td>
+                        <td>{{ ban.reason }}</td>
+                        <td>{{ ban.duration }}</td>
+                        <td>{{ ban.ban_date }}</td>
+                        <td>{% if ban.unban_date %}{{ ban.unban_date }}{% else %}Permanent{% endif %}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+
+
+    </div>
+</div>
+
+</div>
+
+
+{% endblock %}
