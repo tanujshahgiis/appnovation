@@ -1,1 +1,1 @@
-# appnovation
+This project has been created by Ragunandan, Neel and Tanuj for GIIS RWCC App novation competition 2024
